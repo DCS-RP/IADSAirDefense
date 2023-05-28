@@ -144,7 +144,12 @@ namespace RurouniJones.SimpleAirDefense.Grpc
         {
             using var channel = GrpcChannel.ForAddress($"http://{HostName}:{Port}");
             var client = new ControllerService.ControllerServiceClient(channel);
-
+            // TODO REMOVE BEFORE PR
+            // TODO REMOVE BEFORE PR
+            // TODO REMOVE BEFORE PR
+            // TODO REMOVE BEFORE PR
+            // _logger.LogWarning(string.Format("SetAlarmStateAsync unitName {0} groupName {1} alarmState {2}", unitName, groupName, alarmState));    
+            
             try
             {
                 var request = new SetAlarmStateRequest
