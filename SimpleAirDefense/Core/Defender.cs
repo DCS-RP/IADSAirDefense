@@ -27,17 +27,18 @@ namespace RurouniJones.SimpleAirDefense.Core
             { "Hawk tr", 60000 },
             { "Tor 9A331", 50000 },
             { "rapier_fsa_blindfire_radar", 6000 },
-            { "Patriot STR", 100000 },
+            { "Patriot str", 100000 },
             { "Roland ADS", 10000 },
             { "HQ-7_STR_SP", 12500 },
-            { "ZSU-23-4 Shilka", 1000 }
+            { "ZSU-23-4 Shilka", 1000 },
+            { "2S6 Tunguska", 50000}
         };
 
         private enum AlarmState
         {
-            Auto = 0,
-            Green = 1,
-            Red = 2
+            Auto = 1,
+            Green = 2,
+            Red = 3
         }
 
         /*
@@ -45,6 +46,8 @@ namespace RurouniJones.SimpleAirDefense.Core
          */
         public GameServer GameServer { get; set; }
 
+        public IADSConfig IadsConfig { get; set; }
+        
         /*
          * The RPC client that connects to the server and receives the unit updates
          * to put into the update queue
@@ -66,6 +69,22 @@ namespace RurouniJones.SimpleAirDefense.Core
             _rpcClient.HostName = GameServer.Rpc.Host;
             _rpcClient.Port = GameServer.Rpc.Port;
 
+            // var _iadsconfig_name                = IadsConfig.Name;
+            // var _iadsconfig_IADSEnable          = IadsConfig.IADSEnable;
+            // var _iadsconfig_IADSEWRARMDetection = IadsConfig.IADSEWRARMDetection;
+            // For now we will hardcode these vars until we can figure out how to get them into the config file
+            var _iadsconfig_name                = "IADSCONFIG-1";
+            var _iadsconfig_IADSEnable          = true; // If true IADS script is active
+            var _iadsconfig_IADSEWRARMDetection = true; //1 = EWR detection of ARMs on, 0 = EWR detection of ARMs off
+            
+            
+            // TODO remove before PR
+            // TODO remove before PR
+            // TODO remove before PR
+            // TODO remove before PR
+            // See if we can pull the iadsconfig data
+            _logger.LogDebug("IadsConfig Name {_iadsconfig_name} IADSEnable {_iadsconfig_IADSEnable} IADSEWRARMDetection {_iadsconfig_IADSEWRARMDetection}",_iadsconfig_name,_iadsconfig_IADSEnable, _iadsconfig_IADSEWRARMDetection );
+            
             _logger.LogInformation("[{server}] Defender Processing starting", GameServer.ShortName);
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -154,6 +173,7 @@ namespace RurouniJones.SimpleAirDefense.Core
                     // Check to see if there are any active EWRs
                     var ewrsPresent = _units.Values.ToList().Any(u => u.Attributes.Contains("EWR"));
 
+                    // If EWR are NOT present
                     if (!ewrsPresent)
                     {
                         _logger.LogInformation("[{server}] No EWRs found. Turning on all SAM sites", GameServer.ShortName);
@@ -164,6 +184,7 @@ namespace RurouniJones.SimpleAirDefense.Core
                             samSite.AlarmState = (int) AlarmState.Red;
                         }
                     }
+                    // If EWR are present
                     else
                     {
                         _logger.LogDebug("[{server}] EWR sites found", GameServer.ShortName);
@@ -193,7 +214,7 @@ namespace RurouniJones.SimpleAirDefense.Core
                                     GameServer.ShortName, samSite.Name, samSite.Type, samSite.GroupName, targetsInRange);
                                 _logger.LogDebug("[{server}] {unitName} ({unitType}), {groupName}: Setting Alarm State to {alarmState}",
                                     GameServer.ShortName, samSite.Name, samSite.Type, samSite.GroupName, AlarmState.Red);
-                                alarmStates[samSite.GroupName] = 2;
+                                alarmStates[samSite.GroupName] = (int)AlarmState.Red;
                             }
                             else
                             {
@@ -208,7 +229,7 @@ namespace RurouniJones.SimpleAirDefense.Core
                                 {
                                     _logger.LogDebug("[{server}] {unitName} ({unitType}), {groupName}: Turning alarm state to {alarmState}",
                                         GameServer.ShortName, samSite.Name, samSite.Type, samSite.GroupName, AlarmState.Green);
-                                    alarmStates[samSite.GroupName] = 1;
+                                    alarmStates[samSite.GroupName] = (int)AlarmState.Green;
                                 }
                             }
                         }

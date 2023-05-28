@@ -2,11 +2,16 @@
 # The following setup is for the logging system. For information on how to change this
 # see https://serilog.net/
 Serilog:
-  MinimumLevel: 
-    Default: Information
-  Override: 
-    Microsoft: Warning
-    System: Warning
+  MinimumLevel:
+#    Default: Information
+    Default: Debug
+  Override:
+#    Microsoft: Warning
+#    System: Warning
+#    Microsoft: Information
+#    System: Information
+    Microsoft: Debug
+    System: Debug
   Enrich:
     - FromLogContext
     - WithProcessId
@@ -23,15 +28,22 @@ GameServers:
     # Used in discord commands so keep this unique across your gameservers
     ShortName: RBS
     Rpc:
-      Host: rbs.example.com
+      Host: 127.0.0.1
       # This is the default port
       Port: 50051
-  # If you don't need extra servers you can delete this line and everything below it
+#  # If you don't need extra servers you can delete this line and everything below it
+#  -
+#    Name: RurouniJones Worstest Server
+#    # Used in discord commands so keep this unique across your gameservers
+#    ShortName: RWS
+#    Rpc:
+#      Host: rws.example.com
+#      # This is the default port
+#      Port: 50051
+IADSConfig:
   -
-    Name: RurouniJones Worstest Server
-    # Used in discord commands so keep this unique across your gameservers
-    ShortName: RWS
-    Rpc:
-      Host: rws.example.com
-      # This is the default port
-      Port: 50051
+    # Replace the following example fields with those used by your server and database
+    Name: IADSCONFIG
+    IADSEnable: true # If true IADS script is active
+    IADSEWRARMDetection: true #1 = EWR detection of ARMs on, 0 = EWR detection of ARMs off
+            
