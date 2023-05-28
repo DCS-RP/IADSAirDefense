@@ -168,6 +168,24 @@ namespace RurouniJones.SimpleAirDefense.Core
                         await Task.Delay(5000, defenderToken);
                         continue;
                     }
+                    else {
+                        //TODO Remove before pr
+                        //TODO Remove before pr
+                        //TODO Remove before pr
+                        //TODO Remove before pr
+                        // This will loop through every sam on redfor
+                            // then we need to loop through the units they detect
+                        foreach (var allunits in _units.Values) {
+                            // If a SAM or EWR look at what we see!
+                            if (allunits.Attributes.Contains("SAM TR") || allunits.Attributes.Contains("EWR")) {
+                                _logger.LogInformation(string.Format("Unit Name: {0} " +
+                                                                     "Coalition {1} Type {2}"
+                                    , allunits.Name, allunits.Coalition, allunits.Type));
+
+                                // var _detections = allunits.
+                            }
+                        }
+                    }
 
                     var alarmStates = new Dictionary<string, int>();
                     // Check to see if there are any active EWRs
@@ -177,6 +195,7 @@ namespace RurouniJones.SimpleAirDefense.Core
                     if (!ewrsPresent)
                     {
                         _logger.LogInformation("[{server}] No EWRs found. Turning on all SAM sites", GameServer.ShortName);
+                        // Build a list of all SamSites
                         foreach (var samSite in _units.Values.Where(u => u.Attributes.Contains("SAM TR")))
                         {
                             _logger.LogDebug("[{server}] {unitName} ({unitType}), {groupName}: Turning on radar",
@@ -188,6 +207,7 @@ namespace RurouniJones.SimpleAirDefense.Core
                     else
                     {
                         _logger.LogDebug("[{server}] EWR sites found", GameServer.ShortName);
+                        // Build a list of all SamSites
                         foreach (var samSite in _units.Values.Where(u => u.Attributes.Contains("SAM TR")))
                         {
                             _logger.LogDebug("[{server}] {unitName} ({unitType}), {groupName}: Checking if targets in activation range",

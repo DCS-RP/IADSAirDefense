@@ -102,6 +102,26 @@ namespace RurouniJones.SimpleAirDefense.Grpc
             }
         }
 
+        public async Task<UnitDescriptor> GetDetectedTargetsAsync(string unit_name, bool include_object, GetDetectedTargetsRequest.Types.DetectionType detection_type) {
+            
+            _logger.LogDebug(string.Format("Calling GetDetectedTargetsAsync unit_name {0} include_object {1} DetectionType {2}",unit_name, include_object, detection_type));
+
+            using var channel = GrpcChannel.ForAddress($"http://{HostName}:{Port}");
+            var       client  = new UnitService.UnitServiceClient(channel);
+
+            try {
+                // Code goes here!
+                
+                return null;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "gRPC Exception");
+                return null;
+            }            
+            return null;
+        }
+        
         public async Task<UnitDescriptor> GetUnitDescriptorAsync(string name, string type)
         {
             _logger.LogTrace("{name} ({type}) Retrieving Descriptor", name, type);
