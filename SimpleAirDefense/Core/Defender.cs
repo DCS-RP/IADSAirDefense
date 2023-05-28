@@ -183,6 +183,7 @@ namespace RurouniJones.SimpleAirDefense.Core
                                     , allunits.Name, allunits.Coalition, allunits.Type));
 
                                 // var _detections = allunits.
+                                _logger.LogInformation("all units has {unit} units", allunits.DetectedTargetsResponse.Contacts.Count);
                             }
                         }
                     }

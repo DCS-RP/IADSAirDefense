@@ -5,4 +5,8 @@
     <RootNamespace>RurouniJones.SimpleAirDefense.Shared</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="RurouniJones.Dcs.Grpc" Version="0.7.0" />
+  </ItemGroup>
+
 </Project>
