@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using RurouniJones.Dcs.Grpc.V0.Controller;
 using RurouniJones.SimpleAirDefense.Shared.Interfaces;
 
 namespace RurouniJones.SimpleAirDefense.Shared.Models
@@ -40,6 +41,20 @@ namespace RurouniJones.SimpleAirDefense.Shared.Models
 
         private int _alarmState;
 
+        // Think we need something for our GetDetectedTargetsAsync call here
+        private GetDetectedTargetsResponse _detectedTargetsResponse;
+
+        public GetDetectedTargetsResponse DetectedTargetsResponse {
+            get
+            {
+                if (_detectedTargetsResponse != null) return _detectedTargetsResponse;
+                _detectedTargetsResponse =
+                    _rpcClient.GetDetectedTargetsAsync(Name, true, GetDetectedTargetsRequest.Types.DetectionType.Radar).Result;
+                return DetectedTargetsResponse;
+            }
+            protected set => _detectedTargetsResponse = value;
+        }
+        
         public int AlarmState
         {
             get => _alarmState;

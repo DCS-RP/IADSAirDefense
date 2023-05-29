@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
+using RurouniJones.Dcs.Grpc.V0.Controller;
 using RurouniJones.SimpleAirDefense.Shared.Models;
 
 namespace RurouniJones.SimpleAirDefense.Shared.Interfaces
@@ -28,6 +29,11 @@ namespace RurouniJones.SimpleAirDefense.Shared.Interfaces
 
         Task<UnitDescriptor> GetUnitDescriptorAsync(string name, string type);
 
+        Task<GetDetectedTargetsResponse> GetDetectedTargetsAsync(string unit_name, bool include_object,
+            GetDetectedTargetsRequest.Types.DetectionType               detection_type);
+        
         Task SetAlarmStateAsync(string unitName, string groupName, int alarmState);
+        
+        
     }
 }
