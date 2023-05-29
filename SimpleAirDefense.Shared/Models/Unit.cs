@@ -49,7 +49,7 @@ namespace RurouniJones.SimpleAirDefense.Shared.Models
             {
                 if (_detectedTargetsResponse != null) return _detectedTargetsResponse;
                 _detectedTargetsResponse =
-                    _rpcClient.GetDetectedTargetsAsync(Name, false, GetDetectedTargetsRequest.Types.DetectionType.Radar).Result;
+                    _rpcClient.GetDetectedTargetsAsync(Name, true, GetDetectedTargetsRequest.Types.DetectionType.Radar).Result;
                 return DetectedTargetsResponse;
             }
             protected set => _detectedTargetsResponse = value;

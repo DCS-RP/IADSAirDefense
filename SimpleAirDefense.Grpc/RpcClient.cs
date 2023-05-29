@@ -118,7 +118,7 @@ namespace RurouniJones.SimpleAirDefense.Grpc
 
                 var reply = await client.GetDetectedTargetsAsync(request).ResponseAsync;
                 
-                _logger.LogDebug("After GetDetectedTargetsAsync reply {reply}", reply);
+                 _logger.LogTrace("After GetDetectedTargetsAsync reply {reply}", reply);
                 
                 return reply;
             }

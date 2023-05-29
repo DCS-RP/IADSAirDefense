@@ -31,7 +31,8 @@ namespace RurouniJones.SimpleAirDefense.Core
             { "Roland ADS", 10000 },
             { "HQ-7_STR_SP", 12500 },
             { "ZSU-23-4 Shilka", 1000 },
-            { "2S6 Tunguska", 50000}
+            { "2S6 Tunguska", 50000},
+            { "RPC_5N62V", 75000}
         };
 
         private enum AlarmState
@@ -176,6 +177,15 @@ namespace RurouniJones.SimpleAirDefense.Core
                         // This will loop through every sam on redfor
                             // then we need to loop through the units they detect
                         foreach (var allunits in _units.Values) {
+                            
+                            //Debugging all the values we have in attributes
+                            // if (allunits.Name != null && allunits.Type != null && allunits.Attributes != null) {
+                            //     _logger.LogInformation(
+                            //         "**********************Unit: {unitname} | {type}\nAttributes is {attributes}\n\n",
+                            //         allunits.Name, allunits.Type, allunits.Attributes);
+                            // }
+                            
+
                             // If a SAM or EWR look at what we see!
                             if (allunits.Attributes.Contains("SAM TR") || allunits.Attributes.Contains("EWR")) {
                                 _logger.LogInformation(string.Format("Unit Name: {0} " +
@@ -184,6 +194,19 @@ namespace RurouniJones.SimpleAirDefense.Core
 
                                 // var _detections = allunits.
                                 _logger.LogInformation("all units has {unit} units", allunits.DetectedTargetsResponse.Contacts.Count);
+                                
+                                //loop over detections
+                                foreach (var detections in allunits.DetectedTargetsResponse.Contacts) {
+                                    var _unit   = detections.Unit;
+                                    var _weapon = detections.Weapon;
+                                    if (_unit != null) {
+                                        _logger.LogInformation("Unit: {unit}", _unit);
+                                    }
+
+                                    if (_weapon != null) {
+                                        _logger.LogInformation("Unit {unit} Weapon is not Null! {weapon}", _unit, _weapon);
+                                    }
+                                }
                             }
                         }
                     }
